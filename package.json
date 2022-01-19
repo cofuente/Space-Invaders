@@ -2,9 +2,10 @@
   "name": "space-invaders",
   "version": "1.0.0",
   "description": "my code sample for Recurse Center",
-  "main": "index.js",
+  "main": "game.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/esbuild game.js --bundle > build/index.js"
   },
   "repository": {
     "type": "git",
