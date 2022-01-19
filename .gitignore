@@ -1,5 +1,8 @@
 # installed packages
 node_modules
 
+# everything in the build folder
+build
+
 # local dev notes
-NOTES.md 
+NOTES.md
