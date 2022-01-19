@@ -1,0 +1,22 @@
+{
+  "name": "space-invaders",
+  "version": "1.0.0",
+  "description": "my code sample for Recurse Center",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cofuente/Space-Invaders.git"
+  },
+  "keywords": [
+    "Kaboom.js"
+  ],
+  "author": "Chiara Marcial Martínez <contact@cofuente.io> (https://cofuente.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cofuente/Space-Invaders/issues"
+  },
+  "homepage": "https://github.com/cofuente/Space-Invaders#readme"
+}
