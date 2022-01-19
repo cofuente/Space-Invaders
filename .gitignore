@@ -1,0 +1,5 @@
+# installed packages
+node_modules
+
+# local dev notes
+NOTES.md 
