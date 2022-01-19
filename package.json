@@ -12,7 +12,10 @@
     "url": "git+https://github.com/cofuente/Space-Invaders.git"
   },
   "keywords": [
-    "Kaboom.js"
+    "Kaboom.js",
+    "Express.js",
+    "Node.js",
+    "Space Invaders"
   ],
   "author": "Chiara Marcial Martínez <contact@cofuente.io> (https://cofuente.io)",
   "license": "ISC",
@@ -22,6 +25,7 @@
   "homepage": "https://github.com/cofuente/Space-Invaders#readme",
   "dependencies": {
     "esbuild": "^0.14.11",
+    "express": "^4.17.2",
     "kaboom": "^2000.1.8"
   }
 }
