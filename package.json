@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/cofuente/Space-Invaders#readme",
   "dependencies": {
+    "esbuild": "^0.14.11",
     "kaboom": "^2000.1.8"
   }
 }
