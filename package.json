@@ -6,7 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node server.js",
-    "build": "./node_modules/.bin/esbuild game.js --bundle > public/build/index.js"
+    "build": "./node_modules/.bin/esbuild game.js --bundle > public/build/index.js",
+    "just-lint": "npx eslint -c ./.eslintrc.js . --ext .js",
+    "lint": "npm run update-linter && eslint -c ./.eslintrc.js . --ext .js",
+    "lint:fix": "npm run update-linter && eslint -c ./.eslintrc.js . --ext .js  --fix",
+    "update-linter": "npx install-peerdeps --dev eslint && npx install-peerdeps --dev eslint-config-prettier && npx install-peerdeps --dev prettier"
+  },
+  "pre-commit": [
+    "just-lint"
+  ],
+  "prettier": {
+    "useTabs": false,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
   },
   "repository": {
     "type": "git",
@@ -28,5 +41,9 @@
     "esbuild": "^0.14.11",
     "express": "^4.17.2",
     "kaboom": "^2000.1.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0"
   }
 }
