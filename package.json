@@ -2,17 +2,21 @@
   "name": "space-invaders",
   "version": "1.0.0",
   "description": "my code sample for Recurse Center",
-  "main": "game.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/esbuild game.js --bundle > build/index.js"
+    "start": "npm run build && node server.js",
+    "build": "./node_modules/.bin/esbuild game.js --bundle > public/build/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cofuente/Space-Invaders.git"
   },
   "keywords": [
-    "Kaboom.js"
+    "Kaboom.js",
+    "Express.js",
+    "Node.js",
+    "Space Invaders"
   ],
   "author": "Chiara Marcial Martínez <contact@cofuente.io> (https://cofuente.io)",
   "license": "ISC",
@@ -22,6 +26,7 @@
   "homepage": "https://github.com/cofuente/Space-Invaders#readme",
   "dependencies": {
     "esbuild": "^0.14.11",
+    "express": "^4.17.2",
     "kaboom": "^2000.1.8"
   }
 }
