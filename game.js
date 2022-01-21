@@ -32,7 +32,6 @@ scene('main', () => {
     'obj',
     'ui',
   ], 'obj') // set obj layer to be the default layer
-
   add([// background
     sprite( 'space' ),
     layer('bg')
@@ -79,6 +78,13 @@ scene('main', () => {
     }
   ])
 
+  // player movement
+  onKeyDown('left', () => {
+    player.angle -= player.turn_speed
+  })
+  onKeyDown('right', () => {
+    player.angle += player.turn_speed
+  })
 })
 
 // initialize scene 'main'
