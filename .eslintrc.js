@@ -15,8 +15,7 @@ module.exports = {
     'no-extra-semi': 'error',
     'semi': [ 'error','never' ],
     'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
-    'quotes': [ 'error', 'single', {'avoidEscape': true, 'allowTemplateLiterals': true} ],
-
+    'quotes': [ 'error','single',{ 'avoidEscape': true,'allowTemplateLiterals': true } ]
   },
   ignorePatterns: ['build/', 'node_modules']
 }
