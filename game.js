@@ -85,7 +85,15 @@ scene('main', () => {
   onKeyDown('right', () => {
     player.angle += player.turn_speed
   })
+  
+  onKeyDown('up', () => {
+    player.speed = Math.min(player.speed+player.acceleration, player.max_thrust)
+    play('rocket_thrust', {
+      volume: 0.1,
+      speed: 2.0,
+    })
+  } )
+  
 })
-
 // initialize scene 'main'
 go( 'main' )
