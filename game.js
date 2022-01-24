@@ -139,10 +139,23 @@ scene( 'main',() => {
       angle: p.angle
     })
   }
-  
-})
+  let move_delay = 0.1
+  let timer = 0
+  // loop thru rocket sprites for a smoother animation
+    onUpdate(() => {
+      timer += dt()
+      if (timer < move_delay) return
+      timer = 0
+      if (player.thrusting) {
+        player.animation_frame++
+        if (player.animation_frame >= thrust_animation.length) { // wrap to start
+          player.animation_frame = 0
+        }
+      }
+    })
+  })
 
 } )
 
 // initialize scene 'main'
-go( 'main' )
+  go( 'main' )
