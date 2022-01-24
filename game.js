@@ -211,8 +211,16 @@ a.initializing = false
           player.can_shoot = true
       })
     }
-})
+  })
     
+  onCollide('bullet', 'asteroid', (b, a) => {
+    if (!a.initializing) {
+        destroy(b)
+        destroy(a)
+        play('explosion')
+        score++
+    }
+  })
 })
 
 // initialize scene 'main'
