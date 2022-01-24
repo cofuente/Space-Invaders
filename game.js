@@ -26,13 +26,19 @@ loadSound('explosion', 'explosion.mp3')
 loadSound( 'Steamtech-Mayhem_Looping', 'Steamtech-Mayhem_Looping.mp3' )
 
 // first (and for now only) scene
-scene('main', () => {
+scene( 'main',() => {
+  function pointAt(distance, angle) { // calculates a point at a distance and angle from the origin
+    let radians = -1*deg2rad(angle)
+    return vec2(distance * Math.cos(radians), -distance * Math.sin(radians))
+  }
+
   layers([
     'bg',
     'obj',
     'ui',
   ], 'obj') // set obj layer to be the default layer
-  add([// background
+  
+  add( [ // background
     sprite( 'space' ),
     layer('bg')
   ])
@@ -42,7 +48,8 @@ scene('main', () => {
   // ui
   ui = add( [
     layer('ui')
-  ])
+  ] )
+  
   ui.on('draw', () => { // called on every frame of the game
     drawText({
         text: 'Score: ' + score,
@@ -54,11 +61,14 @@ scene('main', () => {
 
   const player = add([
     sprite('ship'),
-    pos(160, 120), // TODO: set to center of screen
+    pos(350, 275), // TODO: dynamically set to center of canvas
     rotate(0),
-    origin('center'), // sets the sprite's origin to "center", so that when we rotate the ship, it will rotate around the middle of its sprite rather than the default top-left corner
+    // sets the sprite's origin to "center"
+    origin( 'center' ),
     solid(),
-    area(), // collision area for the sprite
+    // initializes collision area for the sprite
+    area(),
+    // tags
     'player',
     'mobile',
     'wraps',
@@ -79,21 +89,60 @@ scene('main', () => {
   ])
 
   // player movement
-  onKeyDown('left', () => {
-    player.angle -= player.turn_speed
-  })
-  onKeyDown('right', () => {
-    player.angle += player.turn_speed
-  })
+  onKeyDown('left', () => player.angle -= player.turn_speed)
+  onKeyDown('right', () => player.angle += player.turn_speed)
   
   onKeyDown('up', () => {
-    player.speed = Math.min(player.speed+player.acceleration, player.max_thrust)
+    player.speed = Math.min(player.speed+player.acceleration, player.max_thrust) // eases the player's speed up
     play('rocket_thrust', {
       volume: 0.1,
       speed: 2.0,
     })
+  })
+  onKeyDown('down', () => {
+    player.speed = Math.max(player.speed-player.deceleration, -player.max_thrust)
+    play('rocket_thrust', {
+        volume: 0.2,
+        speed: 2.0,
+    })
+  } )
+  // Movement
+  onUpdate('mobile', (e) => {
+    e.move(pointAt(e.speed, e.angle))
   } )
   
+  // Wrap around the screen
+  onUpdate( 'wraps',( e ) => {
+    const {x, y} = e.pos
+      if (x > width()) e.pos.x = 0
+      if (x < 0) e.pos.x = width()
+      if (y > height()) e.pos.y = 0
+      if (y < 0) e.pos.y = height()
+  } )
+  
+  // Animate rocket
+  const thrust_animation = [ 'rocket1','rocket2','rocket3','rocket4' ]
+  onKeyPress('up', () => {
+    player.thrusting = true
+    player.animation_frame = 0 // index of thrust animation
+  })
+  onKeyRelease('up', () => {
+    player.thrusting = false
+  } )
+  onDraw('player', (p) => {
+  if (player.thrusting) {
+    // draw current frame
+    drawSprite( {
+      sprite: thrust_animation[p.animation_frame],
+      pos: p.pos.add(pointAt(-p.height/2 , p.angle)),
+      origin: 'center',
+      angle: p.angle
+    })
+  }
+  
 })
+
+} )
+
 // initialize scene 'main'
 go( 'main' )
