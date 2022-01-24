@@ -14,10 +14,6 @@ loadSprite('rocket4', 'rocket4.png')
 loadSprite('ship', 'ship.png')
 loadSprite('bullet', 'bullet.png')
 loadSprite('asteroid', 'asteroid.png')
-loadSprite('asteroid_small1', 'asteroid_small1.png')
-loadSprite('asteroid_small2', 'asteroid_small2.png')
-loadSprite('asteroid_small3', 'asteroid_small3.png')
-loadSprite('asteroid_small4', 'asteroid_small4.png')
 
 loadRoot('sounds/')
 loadSound('rocket_thrust', 'rocket_thrust.wav')
@@ -27,29 +23,38 @@ loadSound( 'Steamtech-Mayhem_Looping', 'Steamtech-Mayhem_Looping.mp3' )
 
 // first (and for now only) scene
 scene( 'main',() => {
+  // helper functions
   function pointAt(distance, angle) { // calculates a point at a distance and angle from the origin
     let radians = -1*deg2rad(angle)
     return vec2(distance * Math.cos(radians), -distance * Math.sin(radians))
   }
 
+  function asteroidSpawnPoint() {
+     // spawn randomly at the edge of the scene
+     return choose([rand(vec2(0), vec2(width(), 0)),
+             rand(vec2(0), vec2(0, height())),
+             rand(vec2(0, height()), vec2(width(), height())),
+             rand(vec2(width(), 0), vec2(width(), height()))])
+  }
+  // LAYERS FOR THE SCENE
   layers([
     'bg',
     'obj',
     'ui',
   ], 'obj') // set obj layer to be the default layer
   
-  add( [ // background
+  // background
+  add( [
     sprite( 'space' ),
     layer('bg')
   ])
 
   let score = 0
-
   // ui
   ui = add( [
     layer('ui')
   ] )
-  
+
   ui.on('draw', () => { // called on every frame of the game
     drawText({
         text: 'Score: ' + score,
@@ -120,7 +125,7 @@ scene( 'main',() => {
       if (y < 0) e.pos.y = height()
   } )
   
-  // Animate rocket
+  // -------Animate rocket
   const thrust_animation = [ 'rocket1','rocket2','rocket3','rocket4' ]
   onKeyPress('up', () => {
     player.thrusting = true
@@ -141,7 +146,7 @@ scene( 'main',() => {
   }
   let move_delay = 0.1
   let timer = 0
-  // loop thru rocket sprites for a smoother animation
+  // loop thru rocket sprites 
     onUpdate(() => {
       timer += dt()
       if (timer < move_delay) return
@@ -153,9 +158,41 @@ scene( 'main',() => {
         }
       }
     })
-  })
+  } )
+// -------Animate rocket
+  
+// Asteroids
+const NUM_ASTERIODS = 5
+for (let i = 0; i < NUM_ASTERIODS; i++) {
+    let spawnPoint = asteroidSpawnPoint()
+    let a = add([
+        sprite('asteroid'),
+        pos(spawnPoint),
+        rotate(rand(1,90)),
+        origin('center'),
+        area(),
+        solid(),
+        'asteroid',
+        'mobile',
+        'wraps',
+        {
+            speed: rand(5, 10),
+            initializing: true
+        }
+    ])
 
-} )
+while (a.isColliding('mobile')) {
+    spawnPoint = asteroidSpawnPoint()
+    a.pos = spawnPoint
+    a.pushOutAll()
+}
+
+a.initializing = false
+    a.pushOutAll()
+}
+// Asteroids
+
+})
 
 // initialize scene 'main'
   go( 'main' )
