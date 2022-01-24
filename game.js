@@ -98,7 +98,7 @@ scene( 'main',() => {
     player.speed = Math.min(player.speed+player.acceleration, player.max_thrust) // eases the player's speed up
     play('rocket_thrust', {
       volume: 0.1,
-      speed: 2.0,
+      speed: 3.0,
     })
   })
   onKeyDown('down', () => {
