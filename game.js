@@ -189,6 +189,32 @@ a.initializing = false
 }
 // Asteroids
 
+  // Shooting
+  onKeyPress( 'space',() => {
+    if ( player.can_shoot ) {
+      player.can_shoot = false
+      play( 'laser' )
+      add( [
+        sprite( 'bullet' ),
+        pos( player.pos ),
+        rotate( player.angle ),
+        origin( 'center' ),
+        area(),
+        solid(),
+        'bullet',
+        'mobile',
+        'wraps',
+        {
+          speed: 20,
+        }
+      ] )
+      player.can_shoot = false //
+        wait(player.laser_cooldown, () => {
+            player.can_shoot = true
+        })
+    }
+  })
+    
 })
 
 // initialize scene 'main'
