@@ -190,30 +190,28 @@ a.initializing = false
 // Asteroids
 
   // Shooting
-  onKeyPress( 'space',() => {
-    if ( player.can_shoot ) {
-      player.can_shoot = false
-      play( 'laser' )
-      add( [
-        sprite( 'bullet' ),
-        pos( player.pos ),
-        rotate( player.angle ),
-        origin( 'center' ),
-        area(),
-        solid(),
-        'bullet',
-        'mobile',
-        'wraps',
-        {
-          speed: 20,
-        }
-      ] )
-      player.can_shoot = false //
-        wait(player.laser_cooldown, () => {
-            player.can_shoot = true
-        })
+  onKeyDown('space', () => {
+    if ( player.can_shoot ) { // can only shoot if cooldown is over
+    player.can_shoot = false
+      add([
+          sprite('bullet'),
+          pos(player.pos.add(pointAt(player.width/2, player.angle))),
+          rotate(player.angle),
+          origin('center'),
+          area(),
+          'bullet',
+          'mobile',
+          'destructs',
+          {
+              speed: 100
+          }
+      ])
+      play('laser')
+      wait(player.laser_cooldown, () => {
+          player.can_shoot = true
+      })
     }
-  })
+})
     
 })
 
