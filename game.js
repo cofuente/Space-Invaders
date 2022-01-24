@@ -5,7 +5,7 @@ kaboom({
     scale: 1.5
 })
 
-loadRoot('sprites/' )
+loadRoot('sprites/')
 loadSprite('space', 'space.jpg')
 loadSprite('rocket1', 'rocket1.png')
 loadSprite('rocket2', 'rocket2.png')
@@ -19,12 +19,10 @@ loadRoot('sounds/')
 loadSound('rocket_thrust', 'rocket_thrust.wav')
 loadSound('laser', 'laser.wav')
 loadSound('explosion', 'explosion.mp3')
-loadSound( 'Steamtech-Mayhem_Looping', 'Steamtech-Mayhem_Looping.mp3' )
+loadSound('Steamtech-Mayhem_Looping', 'Steamtech-Mayhem_Looping.mp3')
 
-// first (and for now only) scene
 scene( 'main',() => {
-  // helper functions
-  function pointAt(distance, angle) { // calculates a point at a distance and angle from the origin
+  function pointAt(distance, angle) {
     let radians = -1*deg2rad(angle)
     return vec2(distance * Math.cos(radians), -distance * Math.sin(radians))
   }
@@ -41,7 +39,7 @@ scene( 'main',() => {
     'bg',
     'obj',
     'ui',
-  ], 'obj') // set obj layer to be the default layer
+  ], 'obj') // obj default layer
   
   // background
   add( [
@@ -68,10 +66,8 @@ scene( 'main',() => {
     sprite('ship'),
     pos(350, 275), // TODO: dynamically set to center of canvas
     rotate(0),
-    // sets the sprite's origin to "center"
     origin( 'center' ),
     solid(),
-    // initializes collision area for the sprite
     area(),
     // tags
     'player',
@@ -95,9 +91,9 @@ scene( 'main',() => {
   onKeyDown('right', () => player.angle += player.turn_speed)
   
   onKeyDown('up', () => {
-    player.speed = Math.min(player.speed+player.acceleration, player.max_thrust) // eases the player's speed up
+    player.speed = Math.min(player.speed+player.acceleration, player.max_thrust) // eases the player's speed 
     play('rocket_thrust', {
-      volume: 0.1,
+      volume: 0.09,
       speed: 3.0,
     })
   })
@@ -160,55 +156,51 @@ scene( 'main',() => {
   
 // Asteroids
 const NUM_ASTERIODS = 5
-for (let i = 0; i < NUM_ASTERIODS; i++) {
+  for (let i = 0; i < NUM_ASTERIODS; i++) {
     let spawnPoint = asteroidSpawnPoint()
     let a = add([
-        sprite('asteroid'),
-        pos(spawnPoint),
-        rotate(rand(1,90)),
-        origin('center'),
-        area(),
-        solid(),
-        'asteroid',
-        'mobile',
-        'wraps',
-        {
-            speed: rand(5, 10),
-            initializing: true
-        }
+      sprite('asteroid'),
+      pos(spawnPoint),
+      rotate(rand(1,90)),
+      origin('center'),
+      area(),
+      solid(),
+      'asteroid',
+      'mobile',
+      {
+          speed: rand(5, 10),
+          initializing: true
+      }
     ])
+    while (a.isColliding('mobile')) {
+        spawnPoint = asteroidSpawnPoint()
+        a.pos = spawnPoint
+        a.pushOutAll()
+    }
+    a.initializing = false
+        a.pushOutAll()
+  }
 
-while (a.isColliding('mobile')) {
-    spawnPoint = asteroidSpawnPoint()
-    a.pos = spawnPoint
-    a.pushOutAll()
-}
-
-a.initializing = false
-    a.pushOutAll()
-}
 // Asteroids
 
   // Shooting
   onKeyDown('space', () => {
     if ( player.can_shoot ) { // can only shoot if cooldown is over
-    player.can_shoot = false
+      player.can_shoot = false
       add([
-          sprite('bullet'),
-          pos(player.pos.add(pointAt(player.width/2, player.angle))),
-          rotate(player.angle),
-          origin('center'),
-          area(),
-          'bullet',
-          'mobile',
-          'destructs',
-          {
-              speed: 100
-          }
+            sprite('bullet'),
+            pos(player.pos.add(pointAt(player.width/2, player.angle))),
+            rotate(player.angle),
+            origin('center'),
+            area(),
+            'bullet',
+            'mobile',
+            'destructs',
+            { speed: 100 }
       ])
       play('laser')
       wait(player.laser_cooldown, () => {
-          player.can_shoot = true
+            player.can_shoot = true
       })
     }
   })
@@ -220,8 +212,10 @@ a.initializing = false
         play('explosion')
         score++
     }
-  })
+  } )
+  
+//  ----end scene ---- 
 })
 
 // initialize scene 'main'
-  go( 'main' )
+go( 'main' )
