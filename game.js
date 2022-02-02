@@ -180,8 +180,8 @@ const NUM_ASTERIODS = 5
     a.initializing = false
         a.pushOutAll()
   }
+  // Asteroids
 
-// Asteroids
 
   // Shooting
   onKeyDown('space', () => {
